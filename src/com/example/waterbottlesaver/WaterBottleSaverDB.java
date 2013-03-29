@@ -29,6 +29,11 @@ public class WaterBottleSaverDB {
 		mDatabaseHelper = new DatabaseOpenHelper(context);
 	}
 	
+	/**
+	 * Adjust the total amount of plastic bottles saved
+	 * @param toAdd - The number of refills
+	 * @return True if added, false otherwise
+	 */
 	public boolean adjustTotalSaved(float toAdd){
 		if(toAdd <= 0){ return false; }
 		
@@ -106,6 +111,18 @@ public class WaterBottleSaverDB {
 		String where = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
 		String[] whereArgs = new String[] {"1"};
 		db.update(WBF_DBContract.WaterBottleFillEntry.TABLE1, fillValue, where, whereArgs);
+		
+		return true;
+	}
+	
+	public boolean clearBottlesSaved(){
+		
+		SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(WBF_DBContract.WaterBottleFillEntry.KEY_TOTALSAVED, 0);
+		String where = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
+		String[] whereArgs = new String[] {"1"};
+		db.update(WBF_DBContract.WaterBottleFillEntry.TABLE1, values, where, whereArgs);
 		
 		return true;
 	}

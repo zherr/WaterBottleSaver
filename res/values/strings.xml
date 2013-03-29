@@ -10,7 +10,7 @@
     <string name="hint_fill_bottle">Summary will appear here</string>
     <string name="total_bottle_fill_text">Total Water Bottles Filled:  </string>
     <string name="no_bottles_filled_text">0 </string>
-    <string name="menu_clear">Clear Bottles</string>
+    <string name="menu_clear">Clear Data</string>
     <string name="avg_bottles_saved_text">Average Water Bottles Saved:  </string>
     <string name="enter_bottle_size_text">Please enter the size of your water bottle: </string>
 

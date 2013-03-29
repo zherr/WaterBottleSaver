@@ -87,11 +87,14 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		final TextView  testView = (TextView)findViewById(R.id.textView2);
+		final TextView  totalFilledText = (TextView)findViewById(R.id.textView2);
+		final TextView totalSavedText = (TextView)findViewById(R.id.textView5);
 		switch(item.getItemId()){
 			case(R.id.clear):
 				sqlDB.clearTotalFills();
-				testView.setText(Integer.toString(sqlDB.getTotalFills()));
+				sqlDB.clearBottlesSaved();
+				totalFilledText.setText(Integer.toString(sqlDB.getTotalFills()));
+				totalSavedText.setText(Float.toString(sqlDB.getTotalSaved()));
 			default:
 				return super.onOptionsItemSelected(item);
 		}
