@@ -11,5 +11,8 @@ public class WBF_DBContract {
 		public static final String TABLE1 = "waterbottlefill";
 		public static final String KEY_ID1 = "fill_id";
 		public static final String KEY_FILLVAL = "fill_val";
+		public static final String KEY_BOTTLESIZE = "bottle_size";
+		public static final String KEY_TOTALSAVED = "total_saved";
 	}
+	
 }

@@ -29,23 +29,129 @@ public class WaterBottleSaverDB {
 		mDatabaseHelper = new DatabaseOpenHelper(context);
 	}
 	
-	public Cursor getTotalFills(){
+	public boolean adjustTotalSaved(float toAdd){
+		if(toAdd <= 0){ return false; }
+		
+		float sum = getTotalSaved() + (toAdd*getBottleFillSize())/20;
+		
+		SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+		
+		Log.d("Database", "Got writeable database");
+		ContentValues fillValue = new ContentValues();
+
+		fillValue.put(WBF_DBContract.WaterBottleFillEntry.KEY_TOTALSAVED, sum);
+		String where = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
+		String[] whereArgs = new String[] {"1"};
+		db.update(WBF_DBContract.WaterBottleFillEntry.TABLE1, fillValue, where, whereArgs);
+		
+		return true;
+	}
+	
+	/**
+	 * Gets the total amount of plastic bottles saved over time
+	 * @return The total estimation of plastic bottles saved over time
+	 */
+	public float getTotalSaved(){
+
+		SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+		String[] projection = new String[] {WBF_DBContract.WaterBottleFillEntry.KEY_TOTALSAVED};
+		String selection = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
+		String[] singleSelection = new String[] {"1"};
+		Cursor cursor = db.query(WBF_DBContract.WaterBottleFillEntry.TABLE1, projection, selection, singleSelection, null, null, null);
+		if (cursor == null) {
+			return -1;
+		} else if (!cursor.moveToFirst()) {
+			cursor.close();
+			return -1;
+		}
+		
+		return cursor.getFloat(0);
+	}
+	
+	/**
+	 * Gets the size of the bottle being used
+	 * @return The size of the bottle being used
+	 */
+	public float getBottleFillSize(){
+
+		SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+		String[] projection = new String[] {WBF_DBContract.WaterBottleFillEntry.KEY_BOTTLESIZE};
+		String selection = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
+		String[] singleSelection = new String[] {"1"};
+		Cursor cursor = db.query(WBF_DBContract.WaterBottleFillEntry.TABLE1, projection, selection, singleSelection, null, null, null);
+		if (cursor == null) {
+			return -1;
+		} else if (!cursor.moveToFirst()) {
+			cursor.close();
+			return -1;
+		}
+		
+		return cursor.getFloat(0);
+	}
+	
+	/**
+	 * Adjusts the size of the bottle you are using to fill
+	 * @param size - The volume of the bottle
+	 * @return - True if adjustment successful, false otherwise.
+	 */
+	public boolean adjustBottleSize(float size){	
+		
+		if(size <= 0){ return false; }
+		SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+		
+		Log.d("Database", "Got writeable database");
+		ContentValues fillValue = new ContentValues();
+
+		fillValue.put(WBF_DBContract.WaterBottleFillEntry.KEY_BOTTLESIZE, size);
+		String where = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
+		String[] whereArgs = new String[] {"1"};
+		db.update(WBF_DBContract.WaterBottleFillEntry.TABLE1, fillValue, where, whereArgs);
+		
+		return true;
+	}
+	
+	/**
+	 * Clears the total number of water bottles filled
+	 * @return - True if clear successful, false otherwise.
+	 */
+	public boolean clearTotalFills(){
+		SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(WBF_DBContract.WaterBottleFillEntry.KEY_FILLVAL, 0);
+		String where = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
+		String[] whereArgs = new String[] {"1"};
+		db.update(WBF_DBContract.WaterBottleFillEntry.TABLE1, values, where, whereArgs);
+		
+		return true;
+	}
+	
+	/**
+	 * Gets the total number of water bottles filled
+	 * @return int - The total number of water bottles filled
+	 */
+	public int getTotalFills(){
 		SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
 		String[] projection = new String[] {WBF_DBContract.WaterBottleFillEntry.KEY_FILLVAL};
 		String selection = WBF_DBContract.WaterBottleFillEntry.KEY_ID1 + " =?";
 		String[] singleSelection = new String[] {"1"};
 		Cursor cursor = db.query(WBF_DBContract.WaterBottleFillEntry.TABLE1, projection, selection, singleSelection, null, null, null);
 		if (cursor == null) {
-			return cursor;
+			return -1;
 		} else if (!cursor.moveToFirst()) {
 			cursor.close();
-			return cursor;
+			return -1;
 		}
 		
-		return cursor;
+		return cursor.getInt(0);
 	}
 	
+	/**
+	 * Add the number of water bottles filled to the total
+	 * @param numFilled - The number of water bottles filled
+	 * @return - True if adding was successful, false otherwise
+	 */
 	public boolean insertWaterFill(int numFilled){
+		if(numFilled <= 0){ return false;}
 		int updatedSum = 0;
 		
 		SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
@@ -53,14 +159,7 @@ public class WaterBottleSaverDB {
 		Log.d("Database", "Got writeable database");
 		ContentValues fillValue = new ContentValues();
 
-		Cursor cursor = getTotalFills();
-		if (cursor == null) {
-			return false;
-		} else if (!cursor.moveToFirst()) {
-			cursor.close();
-			return false;
-		}
-		updatedSum = cursor.getInt(0) + numFilled;
+		updatedSum = getTotalFills() + numFilled;
 		
 		//Now update value
 		fillValue.put(WBF_DBContract.WaterBottleFillEntry.KEY_FILLVAL, updatedSum);
