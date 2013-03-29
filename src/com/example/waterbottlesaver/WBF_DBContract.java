@@ -15,4 +15,12 @@ public class WBF_DBContract {
 		public static final String KEY_TOTALSAVED = "total_saved";
 	}
 	
+	public static abstract class WaterBottleHistoryEntry implements BaseColumns{
+		public static final String TABLE1 = "history";
+		public static final String KEY_ID1 = "hist_id";
+		public static final String TIME = "node_time";
+		public static final String TOTAL = "node_total";
+		public static final String SAVED = "node_saved";
+	}
+	
 }

@@ -29,6 +29,23 @@ public class WaterBottleSaverDB {
 		mDatabaseHelper = new DatabaseOpenHelper(context);
 	}
 	
+	public String testDateTimeEntry(){
+		String date = "";
+		SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+		String[] projection = new String[] {WBF_DBContract.WaterBottleHistoryEntry.TIME};
+		String selection = WBF_DBContract.WaterBottleHistoryEntry.KEY_ID1 + " =?";
+		String[] singleSelection = new String[] {"1"};
+		Cursor cursor = db.query(WBF_DBContract.WaterBottleHistoryEntry.TABLE1, projection, selection, singleSelection, null, null, null);
+		if (cursor == null) {
+			return date;
+		} else if (!cursor.moveToFirst()) {
+			cursor.close();
+			return date;
+		}
+		
+		return cursor.getString(0); 
+	}
+	
 	/**
 	 * Adjust the total amount of plastic bottles saved
 	 * @param toAdd - The number of refills

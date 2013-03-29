@@ -35,6 +35,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		//String temp = sqlDB.testDateTimeEntry();
+		//Toast.makeText(this, temp, Toast.LENGTH_LONG).show();
+		
 		final EditText mEditFillBottleText = (EditText)findViewById(R.id.editText1);
 		final EditText mEditBottleSize = (EditText)findViewById(R.id.editText2);
 		final TextView  totalFilledText = (TextView)findViewById(R.id.textView2);
