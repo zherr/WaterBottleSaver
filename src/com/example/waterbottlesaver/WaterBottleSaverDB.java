@@ -18,7 +18,7 @@ import android.content.ContentValues;
 public class WaterBottleSaverDB {
 	
 	private final DatabaseOpenHelper mDatabaseHelper;
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 	public static final String DATABASE_NAME = "waterfill.db";
 	private static String DB_PATH = "/data/data/com.example.waterbottlesaver/databases/";
 	
@@ -53,8 +53,8 @@ public class WaterBottleSaverDB {
 	 */
 	public boolean adjustTotalSaved(float toAdd){
 		if(toAdd <= 0){ return false; }
-		
-		float sum = getTotalSaved() + (toAdd*getBottleFillSize())/20;
+		//TODO just do metric?
+		float sum = getTotalSaved() + (toAdd*getBottleFillSize())/590;// div by 20L
 		
 		SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 		

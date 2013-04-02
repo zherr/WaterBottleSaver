@@ -12,6 +12,7 @@
     <string name="no_bottles_filled_text">0 </string>
     <string name="menu_clear">Clear Data</string>
     <string name="avg_bottles_saved_text">Average Water Bottles Saved:  </string>
-    <string name="enter_bottle_size_text">Please enter the size of your water bottle: </string>
+    <string name="enter_bottle_size_text">Please enter the size of your water bottle (in mL) : </string>
+    <string name="enter_hint_text">Hint: 20oz ~= 590mL</string>
 
 </resources>

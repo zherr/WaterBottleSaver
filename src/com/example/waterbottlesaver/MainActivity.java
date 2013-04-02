@@ -42,9 +42,10 @@ public class MainActivity extends Activity {
 		final EditText mEditBottleSize = (EditText)findViewById(R.id.editText2);
 		final TextView  totalFilledText = (TextView)findViewById(R.id.textView2);
 		final TextView avgBottlesText = (TextView)findViewById(R.id.textView5);
-		
+		 
 		totalFilledText.setText(Integer.toString(sqlDB.getTotalFills()));
-		avgBottlesText.setText(Float.toString(sqlDB.getTotalSaved()));
+		avgBottlesText.setText(Integer.toString(Math.round(sqlDB.getTotalSaved())));
+		mEditBottleSize.setHint("Hint: 20oz ~= 590mL");
 		
 		final Button enterBottleSize = (Button) findViewById(R.id.button2);
 		enterBottleSize.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +55,10 @@ public class MainActivity extends Activity {
 				float bottleSize = Float.parseFloat((mEditBottleSize.getText().toString()));
 				if(sqlDB.adjustBottleSize(bottleSize)){ 
 					Log.d("Click Bottle Size", "Entered new size" + Float.toString(bottleSize));
-					Toast.makeText(getApplicationContext(), "Adjusted bottle size", Toast.LENGTH_SHORT).show();
-				} 
+					Toast.makeText(getApplicationContext(), "Adjusted bottle size: " + Float.toString(bottleSize), Toast.LENGTH_SHORT).show();
+				}
+				mEditBottleSize.setText("");
+				mEditBottleSize.setHint("Hint: 20oz ~= 590mL");
 			}
 		});
 		
@@ -75,7 +78,7 @@ public class MainActivity extends Activity {
 				}
 				
 				float newAvg = sqlDB.getTotalSaved();
-				avgBottlesText.setText((Float.toString(newAvg)).substring(0, 3));
+				avgBottlesText.setText((Integer.toString(Math.round(newAvg))));//.substring(0, 3));
 			}
 		});
 		

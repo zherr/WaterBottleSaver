@@ -52,6 +52,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int avg_bottles_saved_text=0x7f050008;
         public static final int enter_bottle_size_text=0x7f050009;
+        public static final int enter_hint_text=0x7f05000a;
         public static final int enter_water_button=0x7f050003;
         public static final int enter_water_fill=0x7f050002;
         public static final int hint_fill_bottle=0x7f050004;
